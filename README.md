@@ -31,7 +31,13 @@ efficacy and mental compartmentalization. It follows three rules:<br /><br />
 
 <h3 align=center>the tool</h3>
 
-I use [Phoenix](https://github.com/kasper/phoenix) to automate much of my window-switching overhead.
+I use [Phoenix](https://github.com/kasper/phoenix) to automate much of my window-switching overhead:
+
+| Pain-Point | Solution |
+|------------|----------|
+| Detaching and reattaching external monitors 'forgets' the window positions I set prior to detaching. | Because I follow the rules set above, windows on a given space are consistent and I know their names and where I want them. My config file includes pre-set layouts which I can trigger either automatically upon monitor reattachment, or via key command. |
+| There is no built-in way to snap Mac windows to common areas, like left/right halves. | My config includes common "snap" areas, like left and right halves, thirds (configurable to any ratio), and finally, vertical halves. |
+| Using the mouse to position windows is slow and requires mental context-switching | My config is fully keyboard-based. This takes more acclimation, in exchange for low-thought low-cost window management. |
 
 ---
 
@@ -44,4 +50,11 @@ I use [Phoenix](https://github.com/kasper/phoenix) to automate much of my window
 * In the Miscellaneous space goes any window that I either haven't time to categorize, or aren't sure how to categorize. It takes extra mental energy to task-switch on this space, and I often devote some time to distributing these windows as needed.
 * Each project gets its own window; often software development projects will have `Chrome`, `VS Code`, and `iTerm2` each on their own dedicated monitor.
 * My monitors are not fully utilized on pages such as "To-Do".
+
+---
+
+<h3 align=center>configuration & shortcuts</h3>
+
+See [Usage](USAGE.md) for details.
+
 
