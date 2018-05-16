@@ -4,10 +4,21 @@ const HYPER = ['ctrl', 'alt'];
 const HYPER_SHIFT = [...HYPER, 'shift'];
 
 const RATIO = 2/3;
+const IOTA = 0.042;
 
 const FULL_SCREEN = { x: 0, y: 0, width: 1, height: 1 };
 const LEFT_HALF =   { x: 0, y: 0, width: 0.5, height: 1 };
 const RIGHT_HALF =  { x: 0.5, y: 0, width: 0.5, height: 1 };
+
+const LEFT_RATIO =  { x: 0, y: 0, width: RATIO, height: 1 };
+const RIGHT_RATIO = { x: RATIO, y: 0, width: 1-RATIO, height: 1 };
+
+const LEFT_ANTIRATIO =  { x: 0, y: 0, width: 1-RATIO, height: 1 };
+const RIGHT_ANTIRATIO = { x: 1-RATIO, y: 0, width: RATIO, height: 1 };
+const CENTER_ANTIRATIO = { x: 1-(RATIO), y: 0, width: 1-RATIO, height: 1 };
+
+const TOP_HALF = 'top-half';
+const BOTTOM_HALF = 'bottom-half';
 
 
 function centerWindow(win) {
@@ -18,6 +29,34 @@ function centerWindow(win) {
     return win;
 };
 
+
+setWindowFrame = (window, position, frame) => {
+    window.setFrame({
+        x: frame.x + position.x * frame.width,
+        y: frame.y + position.y * frame.height,
+        width: position.width * frame.width,
+        height: position.height * frame.height
+    });
+};
+
+setWindowHalving = (window, half, frame) => {
+    if (half == TOP_HALF) {
+        return window.setFrame({
+            x: window.frame().x,
+            y: frame.y,
+            height: frame.height / 2,
+            width: window.frame().width
+        });
+    }
+    if (half == BOTTOM_HALF) {
+        return window.setFrame({
+            x: window.frame().x,
+            y: frame.y + frame.height / 2,
+            height: frame.height / 2,
+            width: window.frame().width
+        });
+    }
+}
 
 DOCKDIFFERENCE = () => (
     Screen.main().flippedVisibleFrame().height -
@@ -47,134 +86,123 @@ Key.on('left', HYPER, $((window, screen, frame) => {
 
 Key.on('right', HYPER, $((window, screen, frame) => {
     // Right Half
-    window.setFrame({
-        x: frame.x + frame.width / 2,
-        y: frame.y,
-        width: frame.width / 2
-    });
+    setWindowFrame(window, RIGHT_HALF, frame);
 }));
 
 Key.on('left', HYPER_SHIFT, $((window, screen, frame) => {
     // Left RATIO
-    window.setFrame({
-        x: frame.x,
-        y: frame.y,
-        width: frame.width * RATIO
-    });
+    setWindowFrame(window, LEFT_RATIO, frame);
 }));
 
 Key.on('right', HYPER_SHIFT, $((window, screen, frame) => {
     // Right RATIO' complement
-    window.setFrame({
-        x: frame.x + frame.width * RATIO,
-        y: frame.y,
-        width: frame.width * (1-RATIO)
-    });
+    setWindowFrame(window, RIGHT_RATIO, frame);
 }));
 
 // Verticals
 Key.on('1', HYPER, $((window, screen, frame) => {
-    window.setFrame({
-        x: frame.x,
-        y: frame.y,
-        width: frame.width * (1-RATIO)
-    });
+    setWindowFrame(window, LEFT_ANTIRATIO, frame);
 }));
 
 Key.on('2', HYPER, $((window, screen, frame) => {
-    window.setFrame({
-        x: frame.x,
-        y: frame.y,
-        width: frame.width / 2
-    });
+    setWindowFrame(window, LEFT_HALF, frame);
 }));
 
 Key.on('3', HYPER, $((window, screen, frame) => {
-    window.setFrame({
-        x: frame.x,
-        y: frame.y,
-        width: frame.width * RATIO
-    });
+    setWindowFrame(window, LEFT_RATIO, frame);
+
 }));
 
 Key.on('4', HYPER, $((window, screen, frame) => {
-    window.setFrame({
-        x: frame.x,
-        y: frame.y,
-        width: frame.width
-    });
+    setWindowFrame(window, FULL_SCREEN, frame);
 }));
 
 // Vertical Complements
 Key.on('1', HYPER_SHIFT, $((window, screen, frame) => {
-    window.setFrame({
-        x: frame.x + frame.width * (1-RATIO),
-        y: frame.y,
-        width: frame.width * RATIO
-    });
+    setWindowFrame(window, RIGHT_ANTIRATIO, frame);
 }));
 
 Key.on('2', HYPER_SHIFT, $((window, screen, frame) => {
-    window.setFrame({
-        x: frame.x + frame.width / 2,
-        y: frame.y,
-        width: frame.width / 2
-    });
+    setWindowFrame(window, RIGHT_HALF, frame);
 }));
 
 Key.on('3', HYPER_SHIFT, $((window, screen, frame) => {
-    window.setFrame({
-        x: frame.x + frame.width * RATIO,
-        y: frame.y,
-        width: frame.width * (1-RATIO)
-    });
+    setWindowFrame(window, RIGHT_RATIO, frame);
+}));
+
+Key.on('4', HYPER_SHIFT, $((window, screen, frame) => {
+    setWindowFrame(window, CENTER_ANTIRATIO, frame);
 }));
 
 // Resize to top/bottom halves
 Key.on('up', HYPER_SHIFT, $((window, screen, frame) => {
-    window.setFrame({
-        x: window.frame().x,
-        y: frame.y,
-        height: frame.height / 2,
-        width: window.frame().width
-    });
+    setWindowHalving(window, TOP_HALF, frame);
 }));
 
 Key.on('down', HYPER_SHIFT, $((window, screen, frame) => {
-    window.setFrame({
-        x: window.frame().x,
-        y: frame.y + frame.height / 2,
-        height: frame.height / 2,
-        width: window.frame().width
-    });
+    setWindowHalving(window, BOTTOM_HALF, frame);
+}));
+
+Key.on('f4', HYPER, $((window, screen, frame) => {
+    positionToPreset();
+}));
+Key.on('home', HYPER, $((window, screen, frame) => {
+    positionToPreset();
 }));
 
 
-Key.on('home', HYPER, $((window, screen, frame) => {
+positionToPreset = () => {
     // app sets:
     const _messaging = [
         {
             //  Window title // App name
             id: ["Mailbox", "Microsoft Outlook"],
             monitorSettings: {
-                3: { screen: 0, position: FULL_SCREEN }
+                1: { screen: 0, position: LEFT_HALF },
+                3: { screen: 0, position: FULL_SCREEN },
             }
         },
         {
             id: ["", "Slack"],
             monitorSettings: {
-                3: { screen: 1, position: FULL_SCREEN }
+                1: { screen: 0, position: RIGHT_HALF, halving: TOP_HALF },
+                3: { screen: 1, position: FULL_SCREEN },
             }
         },
         {
             id: ["Inbox", "Google Chrome"],
             monitorSettings: {
-                3: { screen: 2, position: FULL_SCREEN }
+                1: { screen: 0, position: RIGHT_HALF, halving: BOTTOM_HALF },
+                3: { screen: 2, position: FULL_SCREEN },
+            }
+        },
+    ];
+    const _coding = [
+        {
+            //  Window title // App name
+            id: ["", "Google Chrome"],
+            monitorSettings: {
+                1: { screen: 0, position: { x: IOTA, y: 0, width: RATIO - IOTA, height: 1 }},
+                3: { screen: 0, position: FULL_SCREEN },
+            }
+        },
+        {
+            id: ["", "Code"],
+            monitorSettings: {
+                1: { screen: 0, position: { x: 0, y: 0, width: RATIO - IOTA, height: 1 }},
+                3: { screen: 2, position: FULL_SCREEN },
+            }
+        },
+        {
+            id: ["", "iTerm"],
+            monitorSettings: {
+                1: { screen: 0, position: RIGHT_RATIO },
+                3: { screen: 1, position: FULL_SCREEN },
             }
         },
     ];
 
-    const presets = [_messaging];
+    const presets = [_messaging, _coding];
 
     const sortedScreens = Screen.all().sort(w => w.flippedVisibleFrame().x);
 
@@ -208,16 +236,10 @@ Key.on('home', HYPER, $((window, screen, frame) => {
                 monitorSetting = mapper.monitorSettings[sortedScreens.length];
                 let frm = sortedScreens[monitorSetting.screen].flippedVisibleFrame();
                 setWindowFrame(win, monitorSetting.position, frm);
+                if (monitorSetting.halving) {
+                    setWindowHalving(win, monitorSetting.halving, frm)
+                }
             })
         }
     });
-}));
-
-setWindowFrame = (window, position, frame) => {
-    window.setFrame({
-        x: frame.x + position.x * frame.width,
-        y: frame.y + position.y * frame.height,
-        width: position.width * frame.width,
-        height: position.height * frame.height
-    });
-}
+};
