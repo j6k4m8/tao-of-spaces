@@ -6,16 +6,12 @@
 <h3 align=center>configurables</h3>
 
 <p align="justify">
-<b>Many components of this configuration are user-customizable.</b> I'll refer to <kbd>HYPER</kbd>, which I alias as <kbd>ctrl</kbd><kbd>⌥</kbd>. But this is editable in `config/_config.js`. The layouts are all fully customizable in `config/_layouts.js`.
+<b>Many components of this configuration are user-customizable.</b> I'll refer to <kbd>HYPER</kbd>, which I alias as <kbd>ctrl</kbd><kbd>⌥</kbd>. But this is editable in <code>config/_config.js</code>. The layouts are all fully customizable in <code>config/_layouts.js</code>.
 </p>
 
 ---
 
 <h3 align=center>keyboard</h3>
-
-<p align="justify">
-<b>Many components of this configuration are user-customizable.</b> I'll refer to <kbd>HYPER</kbd>, which I alias as <kbd>ctrl</kbd><kbd>⌥</kbd>. But this is editable in `config/_config.js`. The layouts are all fully customizable in `config/_layouts.js`.
-</p>
 
 | mod | key | description | code |
 |-----|-----|-------------|------|
