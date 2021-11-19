@@ -73,3 +73,17 @@ Key.on('f4', HYPER, $((window, screen, frame) => {
 Key.on('home', HYPER, $((window, screen, frame) => {
     positionToPreset();
 }));
+
+// Quarters
+Key.on('f1', HYPER, $((window, screen, frame) => {
+    setWindowFrame(window, QUARTER1, frame);
+}));
+Key.on('f2', HYPER, $((window, screen, frame) => {
+    setWindowFrame(window, QUARTER2, frame);
+}));
+Key.on('f3', HYPER, $((window, screen, frame) => {
+    setWindowFrame(window, QUARTER3, frame);
+}));
+Key.on('f4', HYPER, $((window, screen, frame) => {
+    setWindowFrame(window, QUARTER4, frame);
+}));
