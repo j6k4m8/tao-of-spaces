@@ -17,10 +17,10 @@ centerWindow = (win) => {
 
 setWindowFrame = (window, position, frame) => {
     window.setFrame({
-        x: frame.x + position.x * frame.width,
-        y: frame.y + position.y * frame.height,
-        width: position.width * frame.width,
-        height: position.height * frame.height
+        x: PADDING + frame.x + position.x * frame.width,
+        y: PADDING + frame.y + position.y * frame.height,
+        width: position.width * frame.width - 2 * PADDING,
+        height: position.height * frame.height - 2 * PADDING
     });
 };
 
@@ -39,6 +39,42 @@ setWindowHalving = (window, half, frame) => {
             y: frame.y + frame.height / 2,
             height: frame.height / 2,
             width: window.frame().width
+        });
+    }
+};
+
+
+halveWindow = (window, half, frame) => {
+    if (half == TOP_HALF) {
+        return window.setFrame({
+            x: window.frame().x,
+            y: window.frame().y,
+            height: window.frame().height / 2,
+            width: window.frame().width
+        });
+    }
+    if (half == BOTTOM_HALF) {
+        return window.setFrame({
+            x: window.frame().x,
+            y: window.frame().y + window.frame().height / 2,
+            height: window.frame().height / 2,
+            width: window.frame().width
+        });
+    }
+    if (half == LEFT_HALF) {
+        return window.setFrame({
+            x: window.frame().x,
+            y: window.frame().y,
+            height: window.frame().height,
+            width: window.frame().width / 2
+        });
+    }
+    if (half == RIGHT_HALF) {
+        return window.setFrame({
+            x: window.frame().x + window.frame().width / 2,
+            y: window.frame().y,
+            height: window.frame().height,
+            width: window.frame().width / 2
         });
     }
 };
